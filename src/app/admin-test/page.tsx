@@ -5,14 +5,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { Shield, User } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function AdminTestPage() {
   const { isSignedIn, isLoaded: authLoaded } = useAuth();
   const { user, isLoaded: userLoaded } = useUser();
+  const [isClient, setIsClient] = useState(false);
 
-  if (!authLoaded || !userLoaded) {
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Ensure we're on the client side and auth is loaded
+  if (!isClient || !authLoaded || !userLoaded) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#43abc3]" />
       </div>
     );
@@ -24,9 +31,9 @@ export default function AdminTestPage() {
     user?.publicMetadata?.role === "admin";
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Admin Access Test</h1>
+        <h1 className="text-3xl font-bold mb-6 text-gray-900">Admin Access Test</h1>
 
         <div className="space-y-6">
           <Card>
